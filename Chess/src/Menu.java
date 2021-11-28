@@ -1,77 +1,111 @@
-import java.awt.event.ActionEvent; 
-import java.awt.event.ActionListener;
-import javax.swing.*;     
+package com.mycompany.csproject1;
 
-
-public class Menu
-{    
-Menu(){    
-JFrame Frame = new JFrame("Chess");            
-JButton Button = new JButton("Start");
-JButton Button2 = new JButton("Instruction");
-JButton Button3 = new JButton("Setting");
-JButton Button4 = new JButton("Quit");
-
-//Working in Progress (doesnt do anything)
-//JPanel Panel = new JPanel();
-//JLabel Title = new JLabel("Chess");
-
-Button.setBounds(100,100,100, 30);    
-Button2.setBounds(100,150,100, 30);
-Button3.setBounds(100,200,100, 30);
-Button4.setBounds(100,250,100, 30);
-
-Frame.add(Button);  
-Frame.add(Button2); 
-Frame.add(Button3);
-Frame.add(Button4);
-
-Frame.setSize(300,400);    
-Frame.setLayout(null);    
-Frame.setVisible(true);    
-Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-//Start
-Button.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent Start) {
-    	new WindowTest1();
-        Frame.dispose();
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+public class Menu extends Frame implements ActionListener
+{
+  private int boardID, turnTime, winChoice;
+  private JFrame menu;
+  private JPanel menuDisplay;
+  private SettingsDisplay settingsDisplay;
+  private JButton quit, start, settings, instructions;
+  public Menu()
+  {
+    boardID = 0;
+    turnTime = 120;
+    winChoice = 1;
+    menu = new JFrame();
+    menuDisplay = new JPanel();
+    settingsDisplay = new SettingsDisplay(this);
+    menu.setSize(275,350);
+    menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    start = new JButton();
+    instructions = new JButton();
+    settings = new JButton();
+    quit = new JButton();
+    setMenuLayout();
+        
     }
-  });
-
-
-//Instruction
-Button2.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent Instruction) {
-        JOptionPane.showMessageDialog(Frame,
-                "Please read the instruction carefully\n"
-                + "To start this game, please hit the button Start\n"
-                + "To set the settings, please hit the button Setting\n"
-                + "To quit the game, please hit the button Quit\n",
-                "How to play", JOptionPane.PLAIN_MESSAGE);
-    }
-  });
-//Setting
-Button3.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent Setting) 
-    {
-    	//Working in Progress
-    	Watch Timer = new Watch();
-    }
+    
+  public void drawMenu()
+  {
+      menu.setSize(275,350);
+      menu.setVisible(false);
+      menu.setTitle("Main Menu");
+      menu.setContentPane(menuDisplay);
+      menu.setVisible(true);
   }
-);
-
-
-
-
-//Quit
-Button4.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent Quit)
-    {
-    	Frame.dispose();
-    }
+  public void startGame()
+  {
+      //makeGame(boardID, turnTime, winChoice)
   }
-);
+  private void setMenuLayout()
+  {
+    menuDisplay.setBorder(BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new Color(0, 0, 0), 1, true), "Menu"));
+    start.setText("Start");
+    start.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {startActionPerformed(evt);}});
+    instructions.setText("Instructions");
+    instructions.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {instructionsActionPerformed(evt);}});
+    settings.setText("Settings");
+    settings.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {settingsActionPerformed(evt);}});
+    quit.setText("Quit");
+    quit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {quitActionPerformed(evt);}});
+    GroupLayout layout = new GroupLayout(menuDisplay);
+    menuDisplay.setLayout(layout);
+    layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(quit, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(instructions, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(start, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settings, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(start, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(instructions, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(settings, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(quit, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
+        ); 
+  }
+  public void setWin(int choice) {winChoice = choice;}
+  public void setTime(int time){turnTime = time;}
+  public void setBoardID(int num){boardID = num;}
+  public void actionPerformed(ActionEvent e){}
+  private void instructionsActionPerformed(ActionEvent evt) 
+  {         
+      JOptionPane.showMessageDialog(menu,
+      "Put all the rules here",
+      "How to Play", JOptionPane.PLAIN_MESSAGE);
+  }                                            
 
-}
+    private void settingsActionPerformed(ActionEvent evt) 
+    {                                         
+      menu.setVisible(false);
+      menu.setSize(800,500);
+      menu.setTitle("Settings");
+      menu.setContentPane(settingsDisplay);
+      menu.setVisible(true);
+        
+    }                                        
+
+    private void quitActionPerformed(ActionEvent evt) 
+    {                                     
+        menu.dispose();
+    }                                    
+
+    private void startActionPerformed(ActionEvent evt) 
+    {                                      
+        startGame();
+    }                                     
 }
