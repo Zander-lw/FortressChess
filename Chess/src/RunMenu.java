@@ -1,5 +1,4 @@
-package com.mycompany.csproject1;
-public class test
+public class RunMenu
 {
   public static void main(String args[])
   {  
