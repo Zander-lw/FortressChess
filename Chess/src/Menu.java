@@ -37,7 +37,7 @@ public class Menu extends Frame implements ActionListener
   }
   public void startGame()
   {
-      //makeGame(boardID, turnTime, winChoice)
+      //makeGame(boardID, turnTime, gameTime, winChoice)
   }
   private void setMenuLayout()
   {
