@@ -3,13 +3,14 @@ import java.awt.event.*;
 import javax.swing.*;
 public class Menu extends Frame implements ActionListener
 {
-  private int boardID, turnTime, winChoice;
+  private int boardID, turnTime, winChoice, gameTime;
   private JFrame menu;
   private JPanel menuDisplay;
   private SettingsDisplay settingsDisplay;
   private JButton quit, start, settings, instructions;
   public Menu()
   {
+    gameTime = 30;
     boardID = 0;
     turnTime = 120;
     winChoice = 1;
@@ -77,7 +78,7 @@ public class Menu extends Frame implements ActionListener
         ); 
   }
   public void setWin(int choice) {winChoice = choice;}
-  public void setTime(int time){turnTime = time;}
+  public void setTime(int time1, int time2){turnTime = time1; gameTime = time2;}
   public void setBoardID(int num){boardID = num;}
   public void actionPerformed(ActionEvent e){}
   private void instructionsActionPerformed(ActionEvent evt) 
