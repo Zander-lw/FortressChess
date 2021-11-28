@@ -1,4 +1,3 @@
-package com.mycompany.csproject1;
 public class SettingsDisplay extends javax.swing.JPanel 
 {
     private int tempWinChoice;
