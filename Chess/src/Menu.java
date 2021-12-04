@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+/**
+ * Class responsible for controlling the GUI of the menu and it's respective data
+ * 
+ */
 public class Menu extends Frame implements ActionListener
 {
   private int boardID, turnTime, winChoice, gameTime;
@@ -8,6 +12,9 @@ public class Menu extends Frame implements ActionListener
   private JPanel menuDisplay;
   private SettingsDisplay settingsDisplay;
   private JButton quit, start, settings, instructions;
+  /**
+   * Constructor to build the default menu
+   */
   public Menu()
   {
     gameTime = 30;
@@ -23,10 +30,11 @@ public class Menu extends Frame implements ActionListener
     instructions = new JButton();
     settings = new JButton();
     quit = new JButton();
-    setMenuLayout();
-        
-    }
-    
+    setMenuLayout();   
+  }
+    /**
+     * Draws the menu GUI
+     */
   public void drawMenu()
   {
       menu.setSize(275,350);
@@ -35,10 +43,16 @@ public class Menu extends Frame implements ActionListener
       menu.setContentPane(menuDisplay);
       menu.setVisible(true);
   }
+  /**
+   * Creates the game according to the saved settings
+   */
   public void startGame()
   {
-      //makeGame(boardID, turnTime, gameTime, winChoice)
+      //makeGame(boardID, turnTime,gme time, winChoice)
   }
+  /**
+   * Creates the menu GUI setup/layout
+   */
   private void setMenuLayout()
   {
     menuDisplay.setBorder(BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new Color(0, 0, 0), 1, true), "Menu"));
@@ -77,32 +91,61 @@ public class Menu extends Frame implements ActionListener
                 .addContainerGap(32, Short.MAX_VALUE))
         ); 
   }
+  /**
+   * Sets the win condition to the user's choice
+   * @param choice the selected win condition
+   */
   public void setWin(int choice) {winChoice = choice;}
+  /**
+   * Sets the turn and game times
+   * @param time1 the player turn time
+   * @param time2 the total game time
+   */
   public void setTime(int time1, int time2){turnTime = time1; gameTime = time2;}
+  /**
+   * Sets the board to the user's choice
+   * @param num the selected board
+   */
   public void setBoardID(int num){boardID = num;}
+  /**
+   * Listens for actions
+   * @param e variable that holds the action data
+   */
   public void actionPerformed(ActionEvent e){}
+  /**
+   * Listens for when the instruction button is clicked
+   * @param evt variable that holds the action data
+   */
   private void instructionsActionPerformed(ActionEvent evt) 
   {         
       JOptionPane.showMessageDialog(menu,
       "Put all the rules here",
       "How to Play", JOptionPane.PLAIN_MESSAGE);
   }                                            
-
+   /**
+   * Listens for when the settings button is clicked
+   * @param evt variable that holds the action data
+   */
     private void settingsActionPerformed(ActionEvent evt) 
     {                                         
       menu.setVisible(false);
       menu.setSize(800,500);
       menu.setTitle("Settings");
       menu.setContentPane(settingsDisplay);
-      menu.setVisible(true);
-        
+      menu.setVisible(true);       
     }                                        
-
+   /**
+   * Listens for when the quit button is clicked
+   * @param evt variable that holds the action data
+   */
     private void quitActionPerformed(ActionEvent evt) 
     {                                     
         menu.dispose();
     }                                    
-
+   /**
+   * Listens for when the start button is clicked
+   * @param evt variable that holds the action data
+   */
     private void startActionPerformed(ActionEvent evt) 
     {                                      
         startGame();
