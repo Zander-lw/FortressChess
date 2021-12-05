@@ -17,7 +17,7 @@ public class Menu extends Frame implements ActionListener
    */
   public Menu()
   {
-    gameTime = 30;
+    gameTime = 1800;
     boardID = 0;
     turnTime = 120;
     winChoice = 1;
