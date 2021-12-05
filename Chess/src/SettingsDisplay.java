@@ -257,7 +257,7 @@ public class SettingsDisplay extends javax.swing.JPanel
    */
     private void saveExitButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
          currentMenu.setWin(tempWinChoice);
-         currentMenu.setTime(timeSlider.getValue()*60, timeSlider1.getValue());
+         currentMenu.setTime(timeSlider.getValue(), timeSlider1.getValue()*60);
          currentMenu.drawMenu();
     }                                              
     /**
