@@ -48,7 +48,7 @@ public class Menu extends Frame implements ActionListener
    */
   public void startGame()
   {
-      //makeGame(boardID, turnTime,gme time, winChoice)
+      new Game(boardID, turnTime,gme time, winChoice);
   }
   /**
    * Creates the menu GUI setup/layout
