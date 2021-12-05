@@ -47,12 +47,16 @@ public class BoardMap
 			}
 			ascii++;
 		}
-		pieces.add(new Piece("Pawn","White","B1"));
-		pieces.add(new Piece("Pawn","White","B4"));
-		pieces.add(new Piece("Pawn","White","B8"));
-		pieces.add(new Piece("Pawn","Black","C2"));
-		pieces.add(new Piece("Pawn","Black","C3"));
-		pieces.add(new Piece("Pawn","Black","C5"));
+		pieces.add(new Piece("Pawn","Black","B1"));
+		pieces.add(new Piece("Pawn","Black","C6"));
+		pieces.add(new Piece("Knight","Black","B4"));
+		pieces.add(new Piece("Rook","Black","A8"));
+		pieces.add(new Piece("King","Black","B2"));
+		pieces.add(new Piece("Bishop","White","E8"));
+		pieces.add(new Piece("Pawn","White","D7"));
+		pieces.add(new Piece("Pawn","White","D5"));
+		pieces.add(new Piece("Queen","White","C5"));
+		pieces.add(new Piece("Pawn","White","C2"));
 	}
 	
 	/** Method to print the sqaure names and their
@@ -144,79 +148,41 @@ public class BoardMap
 		else { return -1; } // return -1 is square is invalid
 	}
 	
+	// add method to return position of all allied pieces
+	
 	public ArrayList<String> getMoves(String position)
 	{
 		int index;
 		String type = getPieceType(position);
 		String initPos = getPieceInitPos(position);
-		//System.out.println(type);
-		System.out.println(initPos + "\n");
+		System.out.println("Piece at: " + initPos);
+		System.out.println("===============");
 		ArrayList<String> potentialDest = new ArrayList<String>();
 		int[] currentCoord = getCoordinate(position);
 		int[] destCoord = new int[2];
+		String destSquare;
 		// Pawn:
 		if(type == "Pawn")
 		{
 			// Pawn moves if white
 			if(checkSquare(position) == 0)
 			{
-				destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square forward
-				destCoord[1] = currentCoord[1];
-				if(destCoord[0] <= (squareSize*8))					// check for valid coordinates
-				{
-					if(checkSquare(getSquareName(destCoord)) == 2)	// check if square is unoccupied
-					{
-						potentialDest.add(getSquareName(destCoord));	// if yes, add potential destination to arraylist
-						if(position == initPos)							// if the pawn hasn't moved yet (position = initial position)
-						{
-							destCoord[0] = currentCoord[0] + (squareSize*2);	// coordinates for 2 squares forward
-							destCoord[1] = currentCoord[1];
-							if(checkSquare(getSquareName(destCoord)) == 2)		// check if square is unoccupied
-							{
-								potentialDest.add(getSquareName(destCoord));	// if yes, add potential destination to arraylist
-							}
-						}
-					}
-				}
-				// check possible captures
-				destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square diagonal left
-				destCoord[1] = currentCoord[1] - squareSize;
-				if(destCoord[0] >= 0 && destCoord[1] >= 0)			// check for valid coordinates
-				{
-					if(checkSquare(getSquareName(destCoord)) == 1)		// check if target square is occupied by black piece
-					{
-						potentialDest.add(getSquareName(destCoord));	// if yes, add potential destination to arraylist
-					}
-				}
-				destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square diagonal right 
-				destCoord[1] = currentCoord[1] + squareSize;
-				if(destCoord[0] <= (squareSize*7) 
-					&& destCoord[1] <= (squareSize*7))				// check for valid coordinates
-				{
-					if(checkSquare(getSquareName(destCoord)) == 1)		// check if target square is occupied by black piece
-					{
-						potentialDest.add(getSquareName(destCoord)); 	// if yes, add potential destination to arraylist
-					}
-				}
-			}
-			
-			// Pawn moves if black
-			else
-			{
 				destCoord[0] = currentCoord[0] - squareSize;		// calculate coordinates for 1 square forward
 				destCoord[1] = currentCoord[1];
+				destSquare = getSquareName(destCoord);				// get square name
 				if(destCoord[0] >= 0)								// check for valid coordinates
 				{
-					if(checkSquare(getSquareName(destCoord)) == 2)		// check if square is unoccupied
+					if(checkSquare(destSquare) == 2)				// check if square is unoccupied
 					{
-						potentialDest.add(getSquareName(destCoord));	// if yes, add potential destination to arraylist
+						potentialDest.add(destSquare);					// if yes, add potential destination to arraylist
 						if(position == initPos)							// if the pawn hasn't moved yet (position = initial position)
 						{
 							destCoord[0] = currentCoord[0] - (squareSize*2);	// coordinates for 2 squares forward
 							destCoord[1] = currentCoord[1];
-							if(checkSquare(getSquareName(destCoord)) == 2)		// check if square is unoccupied
+							destSquare = getSquareName(destCoord);				// get square name
+							if(checkSquare(destSquare) == 2)					// check if square is unoccupied
 							{
-								potentialDest.add(getSquareName(destCoord));	// if yes, add potential destination to arraylist
+								potentialDest.add(destSquare);					// if yes, add potential destination to arraylist
 							}
 						}
 					}
@@ -224,40 +190,756 @@ public class BoardMap
 				// check possible captures
 				destCoord[0] = currentCoord[0] - squareSize;		// calculate coordinates for 1 square diagonal left
 				destCoord[1] = currentCoord[1] - squareSize;
+				destSquare = getSquareName(destCoord);				// get square name
 				if(destCoord[0] >= 0 && destCoord[1] >= 0)			// check for valid coordinates
 				{
-					if(checkSquare(getSquareName(destCoord)) == 0)		// check if target square is occupied by white piece
+					if(checkSquare(destSquare) == 1)				// check if target square is occupied by white piece
 					{
-						potentialDest.add(getSquareName(destCoord));	// if yes, add potential destination to arraylist
+						potentialDest.add(destSquare);				// if yes, add potential destination to arraylist
 					}
 				}
 				destCoord[0] = currentCoord[0] - squareSize;		// calculate coordinates for 1 square diagonal right 
 				destCoord[1] = currentCoord[1] + squareSize;
+				destSquare = getSquareName(destCoord);				// get square name
 				if(destCoord[0] <= (squareSize*7)
-					&& destCoord[1] <= (squareSize*7))					// check for valid coordinates
+					&& destCoord[1] <= (squareSize*7))				// check for valid coordinates
 				{
-					if(checkSquare(getSquareName(destCoord)) == 0)		// check if target square is occupied by white piece
+					if(checkSquare(destSquare) == 1)				// check if target square is occupied by white piece
 					{
-						potentialDest.add(getSquareName(destCoord)); 	// if yes, add potential destination to arraylist
+						potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+					}
+				}
+			}
+			
+			// Pawn moves if black
+			else
+			{
+				destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1];
+				destSquare = getSquareName(destCoord);				// get square name
+				if(destCoord[0] <= (squareSize*7))					// check for valid coordinates
+				{
+					if(checkSquare(destSquare) == 2)				// check if square is unoccupied
+					{
+						potentialDest.add(destSquare);					// if yes, add potential destination to arraylist
+						if(position == initPos)							// if the pawn hasn't moved yet (position = initial position)
+						{
+							destCoord[0] = currentCoord[0] + (squareSize*2);	// coordinates for 2 squares forward
+							destCoord[1] = currentCoord[1];
+							destSquare = getSquareName(destCoord);				// get square name
+							if(checkSquare(destSquare) == 2)					// check if square is unoccupied
+							{
+								potentialDest.add(destSquare);					// if yes, add potential destination to arraylist
+							}
+						}
+					}
+				}
+				// check possible captures
+				destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square diagonal left
+				destCoord[1] = currentCoord[1] - squareSize;
+				destSquare = getSquareName(destCoord);				// get square name
+				if(destCoord[0] >= 0 && destCoord[1] >= 0)			// check for valid coordinates
+				{
+					if(checkSquare(destSquare) == 0)				// check if target square is occupied by black piece
+					{
+						potentialDest.add(destSquare);				// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square diagonal right 
+				destCoord[1] = currentCoord[1] + squareSize;
+				destSquare = getSquareName(destCoord);				// get square name
+				if(destCoord[0] <= (squareSize*7) 
+					&& destCoord[1] <= (squareSize*7))				// check for valid coordinates
+				{
+					if(checkSquare(destSquare) == 0)				// check if target square is occupied by black piece
+					{
+						potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
 					}
 				}
 			}
 		}
 		
 		// Knight
-		else if(type == "Knight") { potentialDest.add("Knight"); }
+		else if(type == "Knight")
+		{
+			// Knight moves if white
+			if(checkSquare(position) == 0)
+			{
+				destCoord[0] = currentCoord[0] + (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) 
+					&& destCoord[1] <= (squareSize*7))					// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) 
+					&& destCoord[1] <= (squareSize*7))					// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) && destCoord[1] >= 0)	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) && destCoord[1] >= 0)	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] >= 0)				// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] >= 0)				// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] <= (squareSize*7))	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] <= (squareSize*7))	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 1
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+			}
+			
+			// Knight moves if black
+			else
+			{
+				destCoord[0] = currentCoord[0] + (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) 
+					&& destCoord[1] <= (squareSize*7))					// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) 
+					&& destCoord[1] <= (squareSize*7))					// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) && destCoord[1] >= 0)	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] + squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] <= (squareSize*7) && destCoord[1] >= 0)	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] >= 0)				// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] - (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] >= 0)				// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - (2*squareSize);		// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + squareSize;
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] <= (squareSize*7))	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+				destCoord[0] = currentCoord[0] - squareSize;			// calculate coordinates for 1 square forward
+				destCoord[1] = currentCoord[1] + (2*squareSize);
+				destSquare = getSquareName(destCoord);					// get square name
+				if(destCoord[0] >= 0 && destCoord[1] <= (squareSize*7))	// check for valid coordinates
+				{
+					// check if target square is unoccupied or occupied by opposing piece
+					if(checkSquare(destSquare) == 0
+						|| checkSquare(destSquare) == 2)
+					{
+						potentialDest.add(destSquare); 					// if yes, add potential destination to arraylist
+					}
+				}
+			}
+		}
+				
 		
 		// Rook
-		else if(type == "Rook") { potentialDest.add("Rook"); }
+		else if(type == "Rook")
+		{
+			for(int d = 0; d < 4; d++)
+			{
+				for(int i = 1; i < 8; i++)
+				{
+					if(d == 0)
+					{
+						destCoord[0] = currentCoord[0] + (i*squareSize);	// calculate coordinates for i squares down
+						destCoord[1] = currentCoord[1];
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] <= (squareSize*7))					// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 1)
+					{
+						destCoord[0] = currentCoord[0];						// calculate coordinates for i squares left
+						destCoord[1] = currentCoord[1] - (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[1] >= 0)								// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 2)
+					{
+						destCoord[0] = currentCoord[0] - (i*squareSize);	// calculate coordinates for i squares up
+						destCoord[1] = currentCoord[1];
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] >= 0)								// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 3)
+					{
+						destCoord[0] = currentCoord[0];						// calculate coordinates for i squares right
+						destCoord[1] = currentCoord[1] + (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[1] <= (squareSize*7))					// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		// Bishop
-		else if(type == "Bishop") { potentialDest.add("Bishop"); }
+		else if(type == "Bishop")
+		{
+			for(int d = 0; d < 4; d++)
+			{
+				for(int i = 1; i < 8; i++)
+				{
+					if(d == 0)
+					{
+						destCoord[0] = currentCoord[0] + (i*squareSize);	// calculate coordinates for i squares diagonal down right
+						destCoord[1] = currentCoord[1] + (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] <= (squareSize*7)
+							&& destCoord[1] <= (squareSize*7))				// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 1)
+					{
+						destCoord[0] = currentCoord[0] + (i*squareSize);	// calculate coordinates for i squares diagonal down left
+						destCoord[1] = currentCoord[1] - (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name 
+						if(destCoord[0] <= (squareSize*7) && destCoord[1] >= 0)	// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 2)
+					{
+						destCoord[0] = currentCoord[0] - (i*squareSize);	// calculate coordinates for i squares diagonal up left
+						destCoord[1] = currentCoord[1] - (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] >= 0 && destCoord[1] >= 0)			// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 3)
+					{
+						destCoord[0] = currentCoord[0] - (i*squareSize);	// calculate coordinates for i squares diagonal up right 
+						destCoord[1] = currentCoord[1] + (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] >= 0 && destCoord[1] <= (squareSize*7))	// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		// Queen 
-		else if(type == "Queen") { potentialDest.add("Queen"); }
-		
+		else if(type == "Queen")
+		{
+			for(int d = 0; d < 8; d++)
+			{
+				for(int i = 1; i < 8; i++)
+				{
+					if(d == 0)
+					{
+						destCoord[0] = currentCoord[0] + (i*squareSize);	// calculate coordinates for i squares down
+						destCoord[1] = currentCoord[1];
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] <= (squareSize*7))					// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 1)
+					{
+						destCoord[0] = currentCoord[0];						// calculate coordinates for i squares left
+						destCoord[1] = currentCoord[1] - (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[1] >= 0)								// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 2)
+					{
+						destCoord[0] = currentCoord[0] - (i*squareSize);	// calculate coordinates for i squares up
+						destCoord[1] = currentCoord[1];
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] >= 0)								// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 3)
+					{
+						destCoord[0] = currentCoord[0];						// calculate coordinates for i squares right
+						destCoord[1] = currentCoord[1] + (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[1] <= (squareSize*7))					// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 4)
+					{
+						destCoord[0] = currentCoord[0] + (i*squareSize);	// calculate coordinates for i squares diagonal down right
+						destCoord[1] = currentCoord[1] + (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] <= (squareSize*7)
+							&& destCoord[1] <= (squareSize*7))				// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 5)
+					{
+						destCoord[0] = currentCoord[0] + (i*squareSize);	// calculate coordinates for i squares diagonal down left
+						destCoord[1] = currentCoord[1] - (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name 
+						if(destCoord[0] <= (squareSize*7) && destCoord[1] >= 0)	// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 6)
+					{
+						destCoord[0] = currentCoord[0] - (i*squareSize);	// calculate coordinates for i squares diagonal up left
+						destCoord[1] = currentCoord[1] - (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] >= 0 && destCoord[1] >= 0)			// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+					if(d == 7)
+					{
+						destCoord[0] = currentCoord[0] - (i*squareSize);	// calculate coordinates for i squares diagonal up right 
+						destCoord[1] = currentCoord[1] + (i*squareSize);
+						destSquare = getSquareName(destCoord);				// get square name
+						if(destCoord[0] >= 0 && destCoord[1] <= (squareSize*7))	// check for valid coordinates
+						{
+							if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+							}
+							// check if square contains allied piece or is invalid
+							else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1)
+							{
+								break;										// do not add square, move to next direction
+							}
+							else											// check if square is occupied by opposing piece 
+							{
+								potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+								break;										// move to next direction
+							}
+						}
+					}
+				}
+			}
+		}
 		// King
-		else { potentialDest.add("King"); }
+		else
+		{
+			destCoord[0] = currentCoord[0] + squareSize;		// calculate coordinates for 1 square down
+			destCoord[1] = currentCoord[1];
+			destSquare = getSquareName(destCoord);				// get square name
+			if(destCoord[0] <= (squareSize*7))					// check for valid coordinates
+			{
+				if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+				// check if square contains allied piece or is invalid; if yes, do not add square;
+				else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1){}
+				else											// check if square is occupied by opposing piece 
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+			}
+			destCoord[0] = currentCoord[0];						// calculate coordinates for 1 square left
+			destCoord[1] = currentCoord[1] - squareSize;
+			destSquare = getSquareName(destCoord);				// get square name
+			if(destCoord[1] >= 0)								// check for valid coordinates
+			{
+				if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+				// check if square contains allied piece or is invalid; if yes, do not add square;
+				else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1){}
+				else											// check if square is occupied by opposing piece 
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+			}
+			destCoord[0] = currentCoord[0] - squareSize;		// calculate coordinates for 1 square up
+			destCoord[1] = currentCoord[1];
+			destSquare = getSquareName(destCoord);				// get square name
+			if(destCoord[0] >= 0)								// check for valid coordinates
+			{
+				if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+				// check if square contains allied piece or is invalid; if yes, do not add square;
+				else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1){}
+				else											// check if square is occupied by opposing piece 
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+			}
+			destCoord[0] = currentCoord[0];						// calculate coordinates for 1 square right
+			destCoord[1] = currentCoord[1] + squareSize;
+			destSquare = getSquareName(destCoord);				// get square name
+			if(destCoord[1] <= (squareSize*7))					// check for valid coordinates
+			{
+				if(checkSquare(destSquare) == 2)				// check if target square is unoccupied
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+				// check if square contains allied piece or is invalid; if yes, do not add square;
+				else if(checkSquare(destSquare) == checkSquare(position) || checkSquare(destSquare) == -1){}
+				else											// check if square is occupied by opposing piece 
+				{
+					potentialDest.add(destSquare); 				// if yes, add potential destination to arraylist
+				}
+			}
+		}
 		return (ArrayList<String>)potentialDest.clone();
 	}
 }
