@@ -1,4 +1,4 @@
-package windowTest;
+package chessRevolution;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,21 +14,28 @@ public class Square extends JButton implements ActionListener
 	private int Xcoord;
 	private int Ycoord;
 	
-	private int isOccupied = 0;
-	private boolean isVictorySquare = false;
+	private int isOccupied;
+	private boolean isVictorySquare;
 	
-	private boolean isHighlighted = false;
+	private boolean isHighlighted;
 	
-	private boolean isValid = true;
+	private boolean valid;
 	
 	private String name;
+	
+	String position;
 	
 	
 	Square()
 	{
 
-			;
-		
+			this.position = position;
+			valid = true;
+			isHighlighted = false;
+			isVictorySquare = false;
+			isOccupied = 0;
+			
+			
 	}
 	/*
 	public int getPieceColor()
@@ -48,7 +55,7 @@ public class Square extends JButton implements ActionListener
 		else if (this.isOccupied == 0)
 			return false;
 		else
-			this.isValid = false;	//isValid is boolean
+			this.valid = false;	//isValid is boolean
 			return false;
 
 	}
@@ -65,13 +72,18 @@ public class Square extends JButton implements ActionListener
 	
 	public void setValid()
 	{
-		this.isValid = true;
+		this.valid = true;
 	}
 	
-	public void rmValid()
-	{
-		this.isOccupied = -1;
-	}
+    public void invalid()
+    {
+        this.valid = false;
+    }
+    
+    public boolean isValid()
+    {
+    	return valid;
+    }
 	
 	public int getXPos()
 	{
