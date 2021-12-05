@@ -16,9 +16,11 @@ public class Board extends JFrame implements ActionListener
 	
 
 	
-	PanelTest window;
+	BoardPanel window;
 
 	JFrame board;
+	
+	Watch watchPanel;
 	
 	Square A1 = new Square();
 	Square A2 = new Square();
@@ -91,6 +93,7 @@ public class Board extends JFrame implements ActionListener
 	Square H6 = new Square();
 	Square H7 = new Square();
 	Square H8 = new Square();
+
 	
 	
 	Board()
@@ -98,12 +101,18 @@ public class Board extends JFrame implements ActionListener
 
 		board = new JFrame();
 		
-		window = new PanelTest();
+		window = new BoardPanel();
+		
+		watchPanel = new Watch();
+		
+		JFrame watchFrame = new JFrame();
+		
+		//Watch watch;
+		//watch = new Watch();
+		//watch.SettingFrame = window;
 		
 		
-
 		
-
 		
 		
 		
@@ -181,7 +190,7 @@ public class Board extends JFrame implements ActionListener
 		window.add(H7);
 		window.add(H8);
 		
-		//A1.addActionListener(e -> e -> A1.returnSquare("A1"));	//add piece.move?
+		A1.addActionListener(e -> System.out.println("Click!"));	//add piece.move?
 		A1.addActionListener(e -> A1.returnSquare("A1"));		
 		A2.addActionListener(e -> A2.returnSquare("A2"));
 		A3.addActionListener(e -> A3.returnSquare("A3"));
@@ -401,18 +410,31 @@ public class Board extends JFrame implements ActionListener
 		H7.setOpaque(false);
 		H8.setOpaque(false);
 
-
 		
+		//board.setLayout(new GridLayout(1,2,0,0));
+		this.setLayout(new GridLayout(1,2,0,0));
+
+		//board.add(watchPanel);
+		
+		//Watch test = new Watch();
+		//this.setContentPane(watchPanel);
 		this.add(window);
-		this.setSize(512,512);
+		this.add(watchPanel);
+		//this.add(board);
+
+		//this.setSize(512,512);
 		this.setLocationRelativeTo(null);
 		
-		Watch watch = new Watch();
 		
-		//this.add(timer.Timer());
 		
-		//this.pack();
+		//this.add(watchPanel);
+		
+		this.pack();
+		
+
 		this.setVisible(true);
+		board.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			
 	}
 	@Override
