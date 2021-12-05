@@ -128,7 +128,7 @@ public class Menu extends Frame implements ActionListener
         + "Pawns move vertically forward one square, with the option to move two squares if they have not yet moved. Pawns are the only piece to capture different to how they move.\n"
         + "The pawns capture one square diagonally in a forward direction. Pawns are unable to move backward on captures or moves. \nUpon reaching the other side of the board a pawn promotes into any other piece, except for a king. (1 Point)\n\n"  
       + "Gameplay:\n"
-        + "Each player takes turns moving one of their own pieces. To move a piece, click on one of your pieces and then click on one of its valid movement squares.\n
+        + "Each player takes turns moving one of their own pieces. To move a piece, click on one of your pieces and then click on one of its valid movement squares.\n"
         + "If one of these squares is an enemy piece that piece is 'captured' and removed from the board.\n"
         + "There is an individual turn timer: if you dont move a piece in the alloted time your turn is skipped.\nThere is also a game timer, if that runs out the winner is determined by who has the most points.\n"
         + "Additionally, there are multiple boards to choose/play on.\n\n"
@@ -139,7 +139,8 @@ public class Menu extends Frame implements ActionListener
         + "If none of these options are possible then it is considered checkmate the side giving checkmate wins.\n"
         + "Be careful: if the opposing king has no legal moves and is not currently in check then the result is a draw by stalemate.\n"
         + "The other main win condition is getting your king to the opposite side of the board, achieving this before your opponent is a win.\n"
-        + "A default win condition that cannot be changed occurs when the game timer runs out. Each sides' captured pieces are converted to their specified points and added up. Whoever captured the most ponts is the winner, if the poiints are equal the result is a draw.
+        + "A default win condition that cannot be changed occurs when the game timer runs out.\n " 
+        + "Each sides' captured pieces are converted to their specified points and added up. Whoever captured the most ponts is the winner, if the poiints are equal the result is a draw."
       ,"How to Play", JOptionPane.PLAIN_MESSAGE);
   }                                            
    /**
