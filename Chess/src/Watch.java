@@ -16,7 +16,7 @@ public class Watch extends JPanel{
 	String SecString, MinString;	
 	DecimalFormat dFormat = new DecimalFormat("00");
 	
-	public Watch(int time) {
+	public Watch(int time) {		//time in seconds
 		
 		setSize(300,400);
 		
