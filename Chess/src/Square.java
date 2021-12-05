@@ -26,7 +26,7 @@ public class Square extends JButton implements ActionListener
 	private String position;
 	
 	
-	Square()
+	Square(String position)
 	{
 
 			valid = true;
