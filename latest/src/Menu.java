@@ -25,7 +25,7 @@ public class Menu extends Frame implements ActionListener
     menuDisplay = new JPanel();
     settingsDisplay = new SettingsDisplay(this);
     menu.setSize(275,350);
-    menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    menu.setDefaultCloseOperation(menu.EXIT_ON_CLOSE);
     start = new JButton();
     instructions = new JButton();
     settings = new JButton();
@@ -131,7 +131,7 @@ public class Menu extends Frame implements ActionListener
         + "Queens move diagonally, horizontally, or vertically any number of squares. They are unable to jump over pieces. (9 Points)\n"
         + "Rooks move horizontally or vertically any number of squares. They are unable to jump over pieces. Rooks move when the king castles. (5 Points)\n"
         + "Bishops move diagonally any number of squares. They are unable to jump over pieces. (3 Points)\n"
-        + "Knights move in an ‘L’ shape’: two squares in a horizontal or vertical direction, then move one square horizontally or vertically. They are the only piece able to jump over other pieces. (3 Points)\n"
+        + "Knights move in an â€˜Lâ€™ shapeâ€™: two squares in a horizontal or vertical direction, then move one square horizontally or vertically. They are the only piece able to jump over other pieces. (3 Points)\n"
         + "Pawns move vertically forward one square, with the option to move two squares if they have not yet moved. Pawns are the only piece to capture different to how they move.\n"
         + "The pawns capture one square diagonally in a forward direction. Pawns are unable to move backward on captures or moves. \nUpon reaching the other side of the board a pawn promotes into any other piece, except for a king. (1 Point)\n\n"  
       + "Gameplay:\n"
