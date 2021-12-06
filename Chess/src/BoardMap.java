@@ -126,7 +126,7 @@ public class BoardMap
 	*	@return pieces.get(i)).getType()	type of target piece 
 	* 										or null if nonexistent
 	*/
-	private String getPieceType(String square)
+	public String getPieceType(String square)
 	{
 		for(int i = 0; i < pieces.size(); i++)
 		{
@@ -136,6 +136,22 @@ public class BoardMap
 			}
 		}
 		return null;
+	}
+	
+	/** Method to get the captured status of a certain piece 
+	*
+	*	@param square 							position of piece whose type is returned
+	*	@return pieces.get(i)).getCaptured()	captured status of target piece 
+	*/
+	public boolean isCaptured(String square)
+	{
+		for(int i = 0; i < pieces.size(); i++)
+		{
+			if(pieces.get(i).getPosition().equals(square))
+			{
+				return (pieces.get(i)).getCaptured();
+			}
+		}
 	}
 	
 	/** Method to get the initial position of a 
