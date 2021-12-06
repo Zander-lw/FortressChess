@@ -11,15 +11,17 @@ import java.util.*;
 public class Piece
 {
 	private String type;
+	private int number;
 	private String color;
 	private String position;
 	private String initPos;
 	private int points;
 	private boolean isCaptured;
 
-	public Piece(String type, String color, String initPos)
+	public Piece(String type, int number, String color, String initPos)
 	{
 		this.type = type;
+		this.number = number;
 		this.color = color;
 		this.position = initPos;
 		this.initPos = initPos;
@@ -33,6 +35,11 @@ public class Piece
 	public String getType()
 	{
 		return type;
+	}
+	
+	public int getNumber()
+	{
+		return number;
 	}
 	
 	public String getColor()
