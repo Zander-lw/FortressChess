@@ -8,11 +8,12 @@
 import java.util.*;
 
 /** This class creates three arrays and an ArrayList;
-	the first array contains all of the square objects,
-	the second contains the string names of each 
-	square on the board, and the third contains the 
-	image coordinates. The ArrayList contains a dynamic
-	list of all the currently uncaptured pieces*/
+*	the first array contains all of the square objects,
+*	the second contains the string names of each 
+*	square on the board, and the third contains the 
+*	image coordinates. The ArrayList contains a dynamic
+*	list of all the currently uncaptured pieces
+*/
 public class BoardMap
 {
 	private static ArrayList<Piece> pieces = new ArrayList<Piece>();
@@ -23,9 +24,14 @@ public class BoardMap
 	private static int size;
 	
 	/** BoardMap constructor, takes in x and y which
-		denote the size of the chessboard along with
-		z which denotes the size of each square in
-		pixels*/
+	*	denote the size of the chessboard along with
+	*	z which denotes the size of each square in
+	*	pixels
+	*	
+	*	@param x 	width of chess board
+	*	@param y 	height of chess board
+	*	@param z  	pixel size of each square
+	*/
 	public BoardMap(int x, int y, int z)
 	{
 		squareSize = z;
@@ -47,20 +53,21 @@ public class BoardMap
 			}
 			ascii++;
 		}
-		pieces.add(new Piece("Pawn","Black","B1"));
-		pieces.add(new Piece("Pawn","Black","C6"));
-		pieces.add(new Piece("Knight","Black","B4"));
-		pieces.add(new Piece("Rook","Black","A8"));
-		pieces.add(new Piece("King","Black","B2"));
-		pieces.add(new Piece("Bishop","White","E8"));
-		pieces.add(new Piece("Pawn","White","D7"));
-		pieces.add(new Piece("Pawn","White","D5"));
-		pieces.add(new Piece("Queen","White","C5"));
-		pieces.add(new Piece("Pawn","White","C2"));
+		pieces.add(new Piece("Pawn",1,"Black","B1"));
+		pieces.add(new Piece("Pawn",2,"Black","C6"));
+		pieces.add(new Piece("Knight",1,"Black","B4"));
+		pieces.add(new Piece("Rook",1,"Black","B2"));
+		pieces.add(new Piece("King",1,"Black","B2"));
+		pieces.add(new Piece("Bishop",1,"White","E8"));
+		pieces.add(new Piece("Pawn",1,"White","D7"));
+		pieces.add(new Piece("Pawn",2,"White","D5"));
+		pieces.add(new Piece("Queen",1,"White","C5"));
+		pieces.add(new Piece("Pawn",3,"White","C2"));
 	}
 	
 	/** Method to print the sqaure names and their
-		matching coordinates*/
+	*	matching coordinates
+	*/
 	public void printMap()
 	{
 		for(int i = 0; i < size; i++)
@@ -70,7 +77,12 @@ public class BoardMap
 	}
 	
 	/** Method to get the square name using a set of
-		drawing coordinates*/
+	*	drawing coordinates
+	*	
+	*	@param coord 					array of coordinates
+	*	@return squareNames[index] 		string name associated with corresponding 
+	*									square or null if it doesn't exist
+	*/
 	public String getSquareName(int[] coord)
 	{
 		int index;
@@ -86,7 +98,11 @@ public class BoardMap
 	}
 	
 	/** Method to get the drawing coordinates using a
-		square name*/
+	*	square name
+	*
+	*	@param square						name of square
+	*	@return coordinates[index].clone()	clone of the corresponding coordinate array
+	*/
 	public int[] getCoordinate(String square)
 	{
 		int index = Arrays.asList(squareNames).indexOf(square);
@@ -94,18 +110,27 @@ public class BoardMap
 	}
 	
 	/** Method to set a certain square within the array 
-		to invalid*/
+	*	to invalid
+	*
+	*	@param square 	target square to set invalid
+	*/
 	public void setInvalid(String square)
 	{
 		int index = Arrays.asList(squareNames).indexOf(square);
 		squares[index].invalid();
 	}
 	
+	/** Method to get the type of a certain piece 
+	*
+	*	@param square 						position of piece whose type is returned
+	*	@return pieces.get(i)).getType()	type of target piece 
+	* 										or null if nonexistent
+	*/
 	private String getPieceType(String square)
 	{
 		for(int i = 0; i < pieces.size(); i++)
 		{
-			if((pieces.get(i)).getPosition().equals(square))
+			if(pieces.get(i).getPosition().equals(square))
 			{
 				return (pieces.get(i)).getType();
 			}
@@ -113,21 +138,33 @@ public class BoardMap
 		return null;
 	}
 	
+	/** Method to get the initial position of a 
+	*	certain piece 
+	*
+	*	@param square						position of piece whose type is returned
+	*	@return pieces.get(i).getInitPos() 	initial position of target piece 
+	* 										or null if nonexistent
+	*/
 	private String getPieceInitPos(String square)
 	{
 		for(int i = 0; i < pieces.size(); i++)
 		{
-			if((pieces.get(i)).getPosition().equals(square))
+			if(pieces.get(i).getPosition().equals(square))
 			{
-				return (pieces.get(i)).getInitPos();
+				return pieces.get(i).getInitPos();
 			}
 		}
 		return null;
 	}
 	
 	/** Method to check if a certain square is valid, 
-		occupied, and/or the color of the piece 
-		occupying it*/
+	*	occupied, and/or the color of the piece 
+	*	occupying it
+	*
+	* 	@param square 	position/name of target square
+	*	@return int 	value based on occupied/invalid
+	* 					status of target square
+	*/
 	public int checkSquare(String square)
 	{
 		int index = Arrays.asList(squareNames).indexOf(square);
@@ -136,10 +173,10 @@ public class BoardMap
 			for(int i = 0; i < pieces.size(); i++)
 			{
 				// check if square is occupied
-				if((pieces.get(i)).getPosition().equals(square))
+				if(pieces.get(i).getPosition().equals(square))
 				{
 					// if occupied; return 0 if piece is white, 1 if piece is black
-					if((pieces.get(i)).getColor() == "White") { return 0; }	
+					if(pieces.get(i).getColor() == "White") { return 0; }	
 					else { return 1; }
 				}
 			}
@@ -148,8 +185,65 @@ public class BoardMap
 		else { return -1; } // return -1 is square is invalid
 	}
 	
-	// add method to return position of all allied pieces
+	/** Method to change the position of a certain
+	*	piece and capture the target piece if it is
+	*	occupying the destination
+	*
+	* 	@param currentPiece					piece to be moved
+	* 	@param dest							destination square name
+	*	@return pieces.get(i).getColor()	return color of captured piece if said
+	* 										piece is a king, otherwise null
+	*/
+	public String movePiece(String currentPiece, String dest)
+	{
+		for(int i = 0; i < pieces.size(); i++)
+		{
+			if(pieces.get(i).getPosition().equals(dest))
+			{
+				pieces.get(i).capture();
+				if(pieces.get(i).getType().equals("King"))
+				{
+					return pieces.get(i).getColor();
+				}
+				pieces.remove(i);
+				break;
+			}
+		}
+		for(int i = 0; i < pieces.size(); i++)
+		{
+			if(pieces.get(i).getPosition().equals(currentPiece))
+			{
+				pieces.get(i).move(dest);
+			}
+		}
+		return null;
+	}
 	
+	/** Method to return the position of all pieces
+	* 	on a team given team color
+	*
+	* 	@param color			color of target team
+	*	@return positions		ArrayList of piece positions
+	*/
+	public ArrayList<String> teamPositions(String color)
+	{
+		ArrayList<String> positions = new ArrayList<String>();
+		for(int i = 0; i < pieces.size(); i++)
+		{
+			if(pieces.get(i).getColor().equals(color))
+			{
+				positions.add(pieces.get(i).getPosition());
+			}
+		}
+		return (ArrayList<String>)positions.clone();
+	}
+	
+	/** Method to return the possible position 
+	*	a certain piece can be moved
+	*
+	* 	@param position				position of target piece
+	*	@return potentialDest		ArrayList of potential positions
+	*/
 	public ArrayList<String> getMoves(String position)
 	{
 		int index;
