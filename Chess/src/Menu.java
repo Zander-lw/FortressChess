@@ -17,7 +17,7 @@ public class Menu extends Frame implements ActionListener
    */
   public Menu()
   {
-    gameTime = 1800;
+    gameTime = 1800;          //setting default game time, turn time, board and win choice
     boardID = 0;
     turnTime = 120;
     winChoice = 1;
@@ -30,7 +30,7 @@ public class Menu extends Frame implements ActionListener
     instructions = new JButton();
     settings = new JButton();
     quit = new JButton();
-    setMenuLayout();   
+    setMenuLayout();        // method to create the actual gui of the menu
   }
     /**
      * Draws the menu GUI
@@ -40,7 +40,7 @@ public class Menu extends Frame implements ActionListener
       menu.setSize(275,350);
       menu.setVisible(false);
       menu.setTitle("Main Menu");
-      menu.setContentPane(menuDisplay);
+      menu.setContentPane(menuDisplay);     // sets the display to the default menu display
       menu.setVisible(true);
   }
   /**
@@ -48,8 +48,8 @@ public class Menu extends Frame implements ActionListener
    */
   public void startGame()
   {
-      new Game(boardID, turnTime,gameTime, winChoice);
-      menu.dispose();
+      new Game(boardID, turnTime,gameTime, winChoice);      //creates instance of a game and feeds it the necessary information
+      menu.dispose();                                       // gets rid of the menu window/jframe
   }
   /**
    * Creates the menu GUI setup/layout
@@ -57,14 +57,19 @@ public class Menu extends Frame implements ActionListener
   private void setMenuLayout()
   {
     menuDisplay.setBorder(BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new Color(0, 0, 0), 1, true), "Menu"));
+    //start button text and action listener
     start.setText("Start");
     start.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {startActionPerformed(evt);}});
+    //instructions button text and action listener
     instructions.setText("Instructions");
     instructions.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {instructionsActionPerformed(evt);}});
+    //settings button text and action listener
     settings.setText("Settings");
     settings.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {settingsActionPerformed(evt);}});
+    //quit button text and action listener
     quit.setText("Quit");
     quit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent evt) {quitActionPerformed(evt);}});
+    // Bulk of the menu layout of buttons
     GroupLayout layout = new GroupLayout(menuDisplay);
     menuDisplay.setLayout(layout);
     layout.setHorizontalGroup(
@@ -117,7 +122,7 @@ public class Menu extends Frame implements ActionListener
    * Listens for when the instruction button is clicked
    * @param evt variable that holds the action data
    */
-  private void instructionsActionPerformed(ActionEvent evt) 
+  private void instructionsActionPerformed(ActionEvent evt)             //displays all the instructions in popup window
   {         
       JOptionPane.showMessageDialog(menu,
       "Piece Movement:\n"
@@ -153,7 +158,7 @@ public class Menu extends Frame implements ActionListener
       menu.setVisible(false);
       menu.setSize(800,500);
       menu.setTitle("Settings");
-      menu.setContentPane(settingsDisplay);
+      menu.setContentPane(settingsDisplay);       //sets the display to the settings menu display
       menu.setVisible(true);       
     }                                        
    /**
@@ -162,7 +167,7 @@ public class Menu extends Frame implements ActionListener
    */
     private void quitActionPerformed(ActionEvent evt) 
     {                                     
-        menu.dispose();
+        menu.dispose();                           // closes the menu window/jframe when quit is clicked
     }                                    
    /**
    * Listens for when the start button is clicked
